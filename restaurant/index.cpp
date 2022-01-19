@@ -9,7 +9,11 @@ using namespace std;
 
 int main()
 {
-	addMeal();
-	getNextStep();
+	string userName;
+	int tableNumber;
+	string preferredDeliveryTime;
+
+	userName = getUserName();
+	cout << userName;
 }
 

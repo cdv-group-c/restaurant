@@ -1,5 +1,4 @@
 #include <iostream>
-
 #include "state.hpp"
 #include "delivery.hpp"
 #include "menu.hpp"
@@ -11,9 +10,28 @@ int main()
 {
 	string userName;
 	int tableNumber;
+	bool insideOrTakeaway;
+	string address;
 	string preferredDeliveryTime;
 
+
+
+
+	cout << "Witamy w restauracji xyz" << endl;
+
 	userName = getUserName();
-	cout << userName;
+	insideOrTakeaway = getInsideOrTakeaway();
+
+	if (insideOrTakeaway == false) 
+	{
+		tableNumber = getTableNumber();
+
+	}else
+	{
+		address = getAddress();
+		preferredDeliveryTime = getPreferredDeliveryTime();
+	}
+
+	
 }
 

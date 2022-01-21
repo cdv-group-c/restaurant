@@ -3,35 +3,42 @@
 #include <windows.h>
 #include <winbase.h>
 #include <cstdlib>
-#include <conio.h>
+#include <string>
+
 
 using namespace std;
 
 string getUserName() {
 	string userName;
 
-	cout << "Jak masz na imie?" << endl;
-	cin >> userName;
+	 cout << "Jak masz na imie?" << endl;
+	 cin >> userName;
 
 	return userName;
 }
 
-bool getInsideOrTakeaway() {
-	bool insideOrTakeaway;
+int getInsideOrTakeaway() {
+	int insideOrTakeaway;
 
-	cout << "Czy spakowac zamowienie na wynos?" << endl
-		 << "Wybierz [1] Tak lub [0] Nie" << endl;
-	cin >> insideOrTakeaway;
+	 cout << "Czy spakowac zamowienie na wynos?" << endl
+			 << "Wybierz [1] Tak lub [0] Nie" << endl;
+	 cin >> insideOrTakeaway;
 
-	return insideOrTakeaway;
+	 if (insideOrTakeaway == 1 || insideOrTakeaway == 0)
+	 {
+		 return insideOrTakeaway;
+	 }
+
+	 cout << "Chyba sie nie zrozumielismy" << endl;
+	 getInsideOrTakeaway();
 }
 
-
-// Losowanie stolika czy wybieranie?
 int getTableNumber() {
 
+	const int NUMBER_OF_TABLES = 20;
+
 	srand(time(NULL));
-	int tableNumber = rand() % 20 + 1;
+	int tableNumber = rand() % NUMBER_OF_TABLES + 1;
 
 	cout << "Twoj numer stolika to: " << tableNumber << endl;
 
@@ -41,8 +48,11 @@ int getTableNumber() {
 string getAddress() {
 	string address;
 
-	cout << "Podaj adres na ktory ma zostac dostarczone zamowienie" << endl;
+	cout << "Podaj swoj adres zamieszkania" << endl;
+
+// nie dziala
 	cin >> address;
+	getline(cin, address);
 
 	return address;
 }
@@ -51,13 +61,18 @@ string getPreferredDeliveryTime() {
 	string preferredDeliveryTime;
 	int day;
 	int month;
-	int hours;
-	int minutes;
-	SYSTEMTIME st;
+	int hours = 0;
+	int minutes = 0;
 
+	const int OPEN_HOUR = 12;
+	const int CLOSE_HOUR = 24;
+
+
+	SYSTEMTIME st;
 	GetSystemTime(&st);
+
 	cout << "==========================================================" << endl;
-	cout << "Restauracja czynna jest codziennie w godzinach 12:00-24:00" << endl;
+	cout << "Restauracja czynna jest codziennie w godzinach " << OPEN_HOUR <<":00-" << CLOSE_HOUR << ":00" << endl;
 	cout << "==========================================================" << endl;
 
 	cout << "Podaj dzien dostarczenia zamowienia" << endl;
@@ -68,12 +83,13 @@ string getPreferredDeliveryTime() {
 	int currentMonth = st.wMonth;
 	int currentDay = st.wDay;
 	int currentMinutes = st.wMinute;
-	int currentHours = st.wHour;
+	int currentHours = st.wHour + 1;
 
 	if (day < currentDay && month <= currentMonth)
 	{
 		cout << "Podaj prawidlowa date";
-	}else
+	}
+	else
 	{
 		cout << "Podaj godzine dostarczenia zamowienia" << endl;
 		cin >> hours;
@@ -81,14 +97,14 @@ string getPreferredDeliveryTime() {
 		cin >> minutes;
 	}
 
-	if (hours >= 12 && hours < 24) 
+	if (hours >= OPEN_HOUR && hours < CLOSE_HOUR) 
 	{
-		if (hours <= currentHours && minutes > currentMinutes)
+		if (hours <= currentHours && minutes < currentMinutes)
 		{
 			cout << "Podaj prawidlowa godzine";
 		}else 
 		{
-			cout << "Zamowienie zostanie dostarczone " << day << "-" << month << "-2022r" << " o godzinie " << hours << ":" << minutes << endl;
+			preferredDeliveryTime = to_string(day) + "-" + to_string(month) + "-2022" + " " + to_string(hours) + ":" + to_string(minutes);
 		}
 		
 	}else
@@ -96,40 +112,6 @@ string getPreferredDeliveryTime() {
 		cout << "Nie pracujemy w tych godzinach";
 	}
 
-
-
-
-
-	/*if (day >= currentDay && month >= currentMonth)
-	{
-		cout << "Podaj godzine dostarczenia zamowienia" << endl;
-		cin >> hours;
-		cout << "Podaj minute dostarczenia zamowienia" << endl;
-		cin >> minutes;
-	
-
-
-		if (24 > hours < currentHours)
-		{
-			if (24 > hours < 12) 
-			{
-				cout << "Zamowienie zostanie dostarczone " << day << "-" << month << "-2022r" << endl;
-				cout << "O godzinie " << hours << ":" << minutes;
-			}else
-			{
-				"Nasza restauracja w tych godzinach jest zamknieta";
-			}
-
-		}else
-		{
-			cout << "Podaj prawidlowa godzine";
-		}
-
-	}else
-	{
-		cout << "Wybierz prawidlowy dzien i miesiac";
-	}*/
-		
 
 
 	return preferredDeliveryTime;

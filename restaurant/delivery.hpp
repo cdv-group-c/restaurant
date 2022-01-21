@@ -4,7 +4,7 @@
 using namespace std;
 
 string getUserName();
-bool getInsideOrTakeaway();
+int getInsideOrTakeaway();
 int getTableNumber();
 string getAddress();
 string getPreferredDeliveryTime();

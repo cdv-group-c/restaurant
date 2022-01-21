@@ -21,18 +21,21 @@ int main()
 	cout << "========================" << endl;
 
 	userName = getUserName();
-	insideOrTakeaway = getInsideOrTakeaway();
-
-	if (insideOrTakeaway == false) 
-	{
-		tableNumber = getTableNumber();
-
-	}else
-	{
-		address = getAddress();
-		preferredDeliveryTime = getPreferredDeliveryTime();
-	}
 
 	
+	insideOrTakeaway = getInsideOrTakeaway();
+
+
+	if (!insideOrTakeaway)
+	{
+	  tableNumber = getTableNumber();
+	}
+	else
+	{
+	  address = getAddress();
+	  preferredDeliveryTime = getPreferredDeliveryTime();
+	}
+	
+	cout << preferredDeliveryTime;
 }
 

@@ -5,35 +5,40 @@
 #include <cstdlib>
 #include <string>
 
-
 using namespace std;
 
-string getUserName() {
+const int OPEN_HOUR = 12;
+const int CLOSE_HOUR = 24;
+
+string getUserName()
+{
 	string userName;
 
-	 cout << "Jak masz na imie?" << endl;
-	 cin >> userName;
+	cout << "Jak masz na imie?" << endl;
+	cin >> userName;
 
 	return userName;
 }
 
-int getInsideOrTakeaway() {
+int getInsideOrTakeaway()
+{
 	int insideOrTakeaway;
 
-	 cout << "Czy spakowac zamowienie na wynos?" << endl
+	cout << "Czy spakowac zamowienie na wynos?" << endl
 			 << "Wybierz [1] Tak lub [0] Nie" << endl;
-	 cin >> insideOrTakeaway;
+	cin >> insideOrTakeaway;
 
-	 if (insideOrTakeaway == 1 || insideOrTakeaway == 0)
-	 {
-		 return insideOrTakeaway;
-	 }
+	if (insideOrTakeaway == 1 || insideOrTakeaway == 0)
+	{
+		return insideOrTakeaway;
+	}
 
-	 cout << "Chyba sie nie zrozumielismy" << endl;
-	 getInsideOrTakeaway();
+	cout << "Chyba sie nie zrozumielismy" << endl;
+	getInsideOrTakeaway();
 }
 
-int getTableNumber() {
+int getTableNumber()
+{
 
 	const int NUMBER_OF_TABLES = 20;
 
@@ -45,75 +50,85 @@ int getTableNumber() {
 	return tableNumber;
 }
 
-string getAddress() {
+string getAddress()
+{
 	string address;
 
 	cout << "Podaj swoj adres zamieszkania" << endl;
 
-// nie dziala
-	cin >> address;
+	cin.ignore();
+
 	getline(cin, address);
 
 	return address;
 }
 
-string getPreferredDeliveryTime() {
+void showOpenHours()
+{
+	cout << "==========================================================" << endl;
+	cout << "Restauracja czynna jest codziennie w godzinach " << OPEN_HOUR << ":00-" << CLOSE_HOUR << ":00" << endl;
+	cout << "==========================================================" << endl;
+}
+
+string getPreferredDeliveryTime()
+{
 	string preferredDeliveryTime;
-	int day;
-	int month;
-	int hours = 0;
-	int minutes = 0;
 
-	const int OPEN_HOUR = 12;
-	const int CLOSE_HOUR = 24;
-
+	bool isInvalid = false;
 
 	SYSTEMTIME st;
 	GetSystemTime(&st);
-
-	cout << "==========================================================" << endl;
-	cout << "Restauracja czynna jest codziennie w godzinach " << OPEN_HOUR <<":00-" << CLOSE_HOUR << ":00" << endl;
-	cout << "==========================================================" << endl;
-
-	cout << "Podaj dzien dostarczenia zamowienia" << endl;
-	cin >> day;
-	cout << "Podaj miesiac dostarczenia zamowienia" << endl;
-	cin >> month;
-
-	int currentMonth = st.wMonth;
-	int currentDay = st.wDay;
-	int currentMinutes = st.wMinute;
-	int currentHours = st.wHour + 1;
-
-	if (day < currentDay && month <= currentMonth)
+	do
 	{
-		cout << "Podaj prawidlowa date";
-	}
-	else
-	{
+		int day = 0;
+		int month = 0;
+		int hours = 0;
+		int minutes = 0;
+		
+		cout << "Podaj dzien dostarczenia zamowienia" << endl;
+		cin >> day;
+		cout << "Podaj miesiac dostarczenia zamowienia" << endl;
+		cin >> month;
+
+		int currentMonth = st.wMonth;
+		int currentDay = st.wDay;
+		int currentMinutes = st.wMinute;
+		int currentHours = st.wHour + 1;
+
+		bool isDayInThePast = day < currentDay && month <= currentMonth;
+		bool isInDaysRange = (day > 0 && day <= 31) && (month > 0 && month <= 12);
+
+		if (isDayInThePast || !isInDaysRange)
+		{
+			cout << "Podaj prawidlowa date" << endl;
+			isInvalid = true;
+			continue;
+		}
+
 		cout << "Podaj godzine dostarczenia zamowienia" << endl;
 		cin >> hours;
 		cout << "Podaj minute dostarczenia zamowienia" << endl;
 		cin >> minutes;
-	}
 
-	if (hours >= OPEN_HOUR && hours < CLOSE_HOUR) 
-	{
-		if (hours <= currentHours && minutes < currentMinutes)
+		bool isHourInThePast = hours <= currentHours && minutes < currentMinutes;
+		bool isInHoursRange = (hours > 0 && hours < 24) && (minutes > 0 && minutes < 60);
+
+		if (!isInHoursRange || (isDayInThePast && isHourInThePast))
 		{
-			cout << "Podaj prawidlowa godzine";
-		}else 
-		{
-			preferredDeliveryTime = to_string(day) + "-" + to_string(month) + "-2022" + " " + to_string(hours) + ":" + to_string(minutes);
+			cout << "Podaj prawidlowa godzine" << endl;
+			isInvalid = true;
+			continue;
 		}
-		
-	}else
-	{
-		cout << "Nie pracujemy w tych godzinach";
-	}
 
+		if (hours < OPEN_HOUR || hours >= CLOSE_HOUR)
+		{
+			cout << "Nie pracujemy w tych godzinach" << endl;
+			isInvalid = true;
+			continue;
+		}
 
+		preferredDeliveryTime = to_string(day) + "-" + to_string(month) + "-2022" + " " + to_string(hours) + ":" + to_string(minutes);
 
-	return preferredDeliveryTime;
+		return preferredDeliveryTime;
+	} while (isInvalid);
 }
-

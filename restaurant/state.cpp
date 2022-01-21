@@ -23,7 +23,7 @@ void print_menu()
 	for (int i = 1; i <= 5; i++) {
 		string str = to_string(i);
 		vector<string> data = readRecordFromFile("menu.csv", str);
-		cout << "Id: " << data[0] << " | name: " << data[1] << " | price: " << data[2] << endl;
+		cout << "Id: " << data[0] << " | name: " << data[1] << " | price: " << data[2] << " | ingredients: " <<data[3] << endl;
 
 	}
 }
@@ -41,7 +41,7 @@ void add_to_bill()
 	file.close();
 }
 
-void remove_from_bill()
+/*void remove_from_bill()
 {
 	string line;
 	string rm;
@@ -50,7 +50,7 @@ void remove_from_bill()
 
 	string str = to_string(id);
 	vector<string> data = readRecordFromFile("menu.csv", str);
-	rm = "Id: " + data[0] + " | name: " + data[1] + " | price: " + data[2] + "\n";
+	rm = data[0] + "," + data[1] + "," + data[2];
 
 	cout << rm << endl;
 	bill -= stof(data[2]);
@@ -61,8 +61,6 @@ void remove_from_bill()
 
 	while (getline(in, line))
 	{
-		cout << line;
-		cout << rm;
 		if (line != rm)
 			out << line << "\n";
 	}
@@ -71,7 +69,7 @@ void remove_from_bill()
 
 	remove("bill.txt");
 	rename("bill_temp.txt", "bill.txt");
-}
+}*/
 
 void print_bill()
 {
@@ -108,7 +106,7 @@ int main()
 	while (!warunek) {
 		cout << endl;
 		cout << "1. Dodaj" << endl;
-		cout << "2. usun" << endl;
+		//cout << "2. usun" << endl;
 		cout << "3. wyswietl" << endl;
 		cout << "4. zaplac" << endl;
 		cout << "5. exit" << endl;
@@ -117,7 +115,7 @@ int main()
 
 		switch (x) {
 		case 1: add_to_bill(); break;
-		case 2: remove_from_bill(); break;
+		//case 2: remove_from_bill(); break;
 		case 3: print_bill(); break;
 		case 4: cash_bill(); break;
 		case 5: warunek = true; break;
@@ -141,17 +139,20 @@ int main()
 	string id_;
 	string name_;
 	string price_;
+	string ingr_;
 
-	while (getline(file, id_, ',') && !found_record)
+	while (getline(file, id_, '|') && !found_record)
 	{
-		getline(file, name_, ',');
-		getline(file, price_, '\n');
+		getline(file, name_, '|');
+		getline(file, price_, '|');
+		getline(file, ingr_, '\n');
 		if (id_ == search_term)
 		{
 			found_record = true;
 			record.push_back(id_);
 			record.push_back(name_);
 			record.push_back(price_);
+			record.push_back(ingr_);
 		}
 
 	}

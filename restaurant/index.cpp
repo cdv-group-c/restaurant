@@ -16,8 +16,9 @@ int main()
 
 
 
-
+	cout << "========================" << endl;
 	cout << "Witamy w restauracji xyz" << endl;
+	cout << "========================" << endl;
 
 	userName = getUserName();
 	insideOrTakeaway = getInsideOrTakeaway();

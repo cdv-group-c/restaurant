@@ -56,8 +56,9 @@ string getPreferredDeliveryTime() {
 	SYSTEMTIME st;
 
 	GetSystemTime(&st);
-
+	cout << "==========================================================" << endl;
 	cout << "Restauracja czynna jest codziennie w godzinach 12:00-24:00" << endl;
+	cout << "==========================================================" << endl;
 
 	cout << "Podaj dzien dostarczenia zamowienia" << endl;
 	cin >> day;
@@ -69,16 +70,56 @@ string getPreferredDeliveryTime() {
 	int currentMinutes = st.wMinute;
 	int currentHours = st.wHour;
 
-	if (day >= currentDay && month >= currentMonth)
+	if (day < currentDay && month <= currentMonth)
+	{
+		cout << "Podaj prawidlowa date";
+	}else
 	{
 		cout << "Podaj godzine dostarczenia zamowienia" << endl;
 		cin >> hours;
 		cout << "Podaj minute dostarczenia zamowienia" << endl;
 		cin >> minutes;
+	}
 
-		if (minutes > currentMinutes && hours > currentHours)
+	if (hours >= 12 && hours < 24) 
+	{
+		if (hours <= currentHours && minutes > currentMinutes)
 		{
-			cout << "Data i godzina zostala zapisana";
+			cout << "Podaj prawidlowa godzine";
+		}else 
+		{
+			cout << "Zamowienie zostanie dostarczone " << day << "-" << month << "-2022r" << " o godzinie " << hours << ":" << minutes << endl;
+		}
+		
+	}else
+	{
+		cout << "Nie pracujemy w tych godzinach";
+	}
+
+
+
+
+
+	/*if (day >= currentDay && month >= currentMonth)
+	{
+		cout << "Podaj godzine dostarczenia zamowienia" << endl;
+		cin >> hours;
+		cout << "Podaj minute dostarczenia zamowienia" << endl;
+		cin >> minutes;
+	
+
+
+		if (24 > hours < currentHours)
+		{
+			if (24 > hours < 12) 
+			{
+				cout << "Zamowienie zostanie dostarczone " << day << "-" << month << "-2022r" << endl;
+				cout << "O godzinie " << hours << ":" << minutes;
+			}else
+			{
+				"Nasza restauracja w tych godzinach jest zamknieta";
+			}
+
 		}else
 		{
 			cout << "Podaj prawidlowa godzine";
@@ -87,8 +128,9 @@ string getPreferredDeliveryTime() {
 	}else
 	{
 		cout << "Wybierz prawidlowy dzien i miesiac";
-	}
+	}*/
 		
+
 
 	return preferredDeliveryTime;
 }

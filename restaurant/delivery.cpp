@@ -8,7 +8,7 @@
 using namespace std;
 
 const int OPEN_HOUR = 12;
-const int CLOSE_HOUR = 24;
+const int CLOSE_HOUR = 22;
 
 string getUserName()
 {
@@ -70,6 +70,12 @@ void showOpenHours()
 	cout << "==========================================================" << endl;
 }
 
+void setDeliveryTime()
+{
+
+}
+
+
 string getPreferredDeliveryTime()
 {
 	string preferredDeliveryTime;
@@ -97,6 +103,7 @@ string getPreferredDeliveryTime()
 
 		bool isDayInThePast = day < currentDay && month <= currentMonth;
 		bool isInDaysRange = (day > 0 && day <= 31) && (month > 0 && month <= 12);
+		bool isCurrentDay = day == currentDay && month == currentMonth;
 
 		if (isDayInThePast || !isInDaysRange)
 		{
@@ -111,9 +118,9 @@ string getPreferredDeliveryTime()
 		cin >> minutes;
 
 		bool isHourInThePast = hours <= currentHours && minutes < currentMinutes;
-		bool isInHoursRange = (hours > 0 && hours < 24) && (minutes > 0 && minutes < 60);
+		bool isInHoursRange = (hours >= 0 && hours < 24) && (minutes >= 0 && minutes < 60);
 
-		if (!isInHoursRange || (isDayInThePast && isHourInThePast))
+		if (!isInHoursRange || isDayInThePast ||  (isCurrentDay && isHourInThePast))
 		{
 			cout << "Podaj prawidlowa godzine" << endl;
 			isInvalid = true;
@@ -126,9 +133,20 @@ string getPreferredDeliveryTime()
 			isInvalid = true;
 			continue;
 		}
+		
+		int fastestDeliveryHours = currentHours + 1;
+
+		bool isTooFastDeliveryTime = hours < fastestDeliveryHours || (hours == fastestDeliveryHours && minutes < currentMinutes);
+
+		if (isCurrentDay && isTooFastDeliveryTime)
+		{
+			hours = fastestDeliveryHours;
+			minutes = currentMinutes;
+		}
 
 		preferredDeliveryTime = to_string(day) + "-" + to_string(month) + "-2022" + " " + to_string(hours) + ":" + to_string(minutes);
 
 		return preferredDeliveryTime;
 	} while (isInvalid);
+
 }

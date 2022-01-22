@@ -1,13 +1,8 @@
 #ifndef menu_hpp
 #define menu_hpp
 using namespace std;
-void showMeals(string menu);
-int getUserChoice(int mealIds[]);
-int getAmountOfMeals();
-void showMenu();
-void getNextStep();
+
+void getNextStep(vector<int> currentOrder, vector<int> mealIds, string mealList);
 void addMeal();
 
-
 #endif // !menu_hpp
-

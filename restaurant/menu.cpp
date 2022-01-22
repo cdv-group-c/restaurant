@@ -1,122 +1,150 @@
 #include <iostream>
+#include "state.hpp"
 
 using namespace std;
 
-void showMeals(string menu) {
-	cout << menu;
+void getNextStep(vector<int> currentOrder, vector<int> mealIds, string mealList);
+
+void showMeals(string menu)
+{
+	cout << menu << endl;
 };
 
-bool validateMealId(int mealIds[], int userChoice) {
+bool validateMealId(vector<int> mealIds, int userChoice)
+{
 	bool isValid = false;
-	int size = sizeof(mealIds) / sizeof(mealIds[0]);
+	size_t size = mealIds.size();
 
-	for (int i = 0; i < size; i++) {
-		if (mealIds[i] == userChoice) {
+	for (int i = 0; i < size; i++)
+	{
+		if (mealIds[i] == userChoice)
+		{
 			isValid = true;
 			break;
 		}
 	}
-	
+
 	return isValid;
 }
 
-int getUserChoice(int mealIds[]) {
+int getUserChoice(vector<int> mealIds)
+{
 	int userChoice;
-	
-	
-	cout << "Co chcesz dzisiaj zjesc?" << endl;
+
+	cout << "\nCo chcesz dzisiaj zjesc?" << endl;
 	cin >> userChoice;
 
 	bool isValid = validateMealId(mealIds, userChoice);
 
-	if(!isValid) {
-		cout << "Podaj wlasciwy numer posilku" << endl;
+	if (!isValid)
+	{
+		cout << "\nPodaj wlasciwy numer posilku" << endl;
 		getUserChoice(mealIds);
 	}
 
 	return userChoice;
 };
 
-bool validateAmountOfMeals(int amountOfMeals, int maxAmountOfMeals) {
-	return amountOfMeals < maxAmountOfMeals;
+bool validateAmountOfMeals(int amountOfMeals, int maxAmountOfMeals)
+{
+	return amountOfMeals <= maxAmountOfMeals;
 }
 
-int getAmountOfMeals() {
+int getAmountOfMeals()
+{
 	int amountOfMeals;
-		cout << "Ile porcji chcesz zamowic?" << endl;
-		cin >> amountOfMeals;
+	cout << "\nIle porcji chcesz zamowic?" << endl;
+	cin >> amountOfMeals;
+	int MAX_AMOUNT_OF_MEALS = 5;
+
 	bool isValid = validateAmountOfMeals(amountOfMeals, 5);
 
-	if (!isValid) {
-		cout << "Podaj odpowiednia ilosc porcji" << endl;
+	if (!isValid)
+	{
+		cout << "\nMozesz zamowic maksymalnie " << MAX_AMOUNT_OF_MEALS << " porcji" << endl;
 		getAmountOfMeals();
 	}
-	
-	
+
 	return amountOfMeals;
 };
-void showMenu() {
+
+void showMenu()
+{
 	cout << "1. Dodaj kolejne danie" << endl;
 	cout << "2. Usun danie" << endl;
 	cout << "3. Przejdz do platnosci" << endl;
 	cout << "4. Wyjdz z programu" << endl;
-
-	
 }
 
-void addMeal() {
-	int tab[3] = { 1,2,3 };
-	showMeals("test");
-	getUserChoice(tab);
-	getAmountOfMeals();
+void addMeal()
+{
+	string menu = getMealsList();
+	vector<int> mealIds = getMealIds();
+	showMeals(menu);
+	int userChoice = getUserChoice(mealIds);
+	int amountOfMeals = getAmountOfMeals();
+	addToBill(userChoice, amountOfMeals);
+	vector<int> currentOrder = getOrderedMeals();
 	showMenu();
-
+	getNextStep(currentOrder, mealIds, menu);
 }
 
-int getMealToRemove(int mealIds[]) {
+int getMealToRemove(vector<int> mealIds)
+{
 	int mealToRemove;
 
-
-	cout << "Co chcesz usunac?" << endl;
+	cout << "\nCo chcesz usunac?" << endl;
+	cout << getBill() << endl;
 	cin >> mealToRemove;
 
 	bool isValid = validateMealId(mealIds, mealToRemove);
 
-	if (!isValid) {
-		cout << "Nie masz takiego posilku w swoim zamowieniu" << endl;
+	if (!isValid)
+	{
+		cout << "\nNie masz takiego posilku w swoim zamowieniu" << endl;
 		getMealToRemove(mealIds);
 	}
 
 	return mealToRemove;
 };
-bool checkOrder(int mealIds[]) {
+
+bool checkOrder(vector<int> mealIds)
+{
 	int size = sizeof(mealIds) / sizeof(mealIds[0]);
-	cout << size;
 	return size > 0;
 }
 
-
-void getNextStep() {
-	int tab2[1] = {0};
+void getNextStep(vector<int> currentOrder, vector<int> mealIds, string mealList)
+{
 	int number;
 	cin >> number;
 
-	switch (number) {
+	switch (number)
+	{
 	case 1:
 		addMeal();
 		break;
 
 	case 2:
-		getMealToRemove(tab2);
+	{
+		int mealToRemove = getMealToRemove(mealIds);
+		removeFromBill(mealToRemove);
+		showMenu();
+		vector<int> newCurrentOrder = getOrderedMeals();
+		getNextStep(newCurrentOrder, mealIds, mealList);
 		break;
+	}
 
-	case 3: {
-		bool isValid = checkOrder(tab2);
-		break;
-		if (!isValid) {
-			cout << "Najpierw dodaj posilek" << endl;
+	case 3:
+	{
+		bool isValid = checkOrder(currentOrder);
+
+		if (!isValid)
+		{
+			cout << "\nNajpierw dodaj posilek" << endl;
 			addMeal();
 		}
+		break;
 	}
 
 	case 4:
@@ -124,5 +152,3 @@ void getNextStep() {
 		break;
 	}
 }
-
-

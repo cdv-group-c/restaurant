@@ -5,81 +5,86 @@
 #include <cstdio>
 
 using namespace std;
-int id;
-int billSize = 0;
-float bill = 0;
-float portionNumber = 0;
 
-const string MENU_FILE_NAME = "menu.csv";
+const string MENU_FILE_NAME = "menu.txt";
 const string BILL_FILE_NAME = "bill.txt";
-int numberOfId = 0;
-string tempLine;
+
+vector<int> orderedMeals;
+vector<int> mealIds;
 
 vector<string> readRecordFromFile(string fileName, string searchTerm);
 
-void printMenu()
+string getMealsList()
 {
+	int amountOfMeals = 0;
+	string tempLine;
+	string mealsList;
 	ifstream file;
+	
 	file.open(MENU_FILE_NAME);
-	while (getline(file, tempLine)) {
-		numberOfId++;
+
+	while (getline(file, tempLine))
+	{
+		amountOfMeals++;
+
+		string mealId = to_string(amountOfMeals);
+		vector<string> data = readRecordFromFile(MENU_FILE_NAME, mealId);
+		mealsList += mealId + ". | name: " + data[1] + " | price: " + data[2] + " | ingredients: " + data[3] + "\n";
+
+		mealIds.push_back(amountOfMeals);
 	}
 
-	for (int i = 1; i <= numberOfId; i++) {
-		string str = to_string(i);
-		vector<string> data = readRecordFromFile(MENU_FILE_NAME, str);
-		cout << "Id: " << data[0] << " | name: " << data[1] << " | price: " << data[2] << " | ingredients: " << data[3] << endl;
+	return mealsList;
+}
+
+vector<int> getMealIds()
+{
+	return mealIds;
+}
+
+void addToBill(int id, int amountOfMeals)
+{
+	for (int i = 0; i < amountOfMeals; i++)
+	{
+		orderedMeals.push_back(id);
 	}
 }
 
-void addToBill()
+void removeFromBill(int id)
 {
-	cin >> id;
-	if (id > numberOfId || id <= 0)
-	{
-		cout << "Numer poza zakresem" << endl;
-	}
-	else
-	{
-		cin >> portionNumber;
-		string str = to_string(id);
-		vector<string> data = readRecordFromFile(MENU_FILE_NAME, str);
-		fstream file;
-		file.open(BILL_FILE_NAME, ios::out | ios::app);
-		file << data[0] << "," << data[1] << "," << data[2] << endl;
-		bill += (stof(data[2]) * portionNumber);
-		billSize += 1;
-		file.close();
-	}
-	
+	orderedMeals.erase(orderedMeals.begin() + id - 1);
 }
 
-void printBill()
+vector<int> getOrderedMeals()
 {
-	for (int i = 1; i <= billSize; i++)
-	{
-		string str = to_string(i);
-		vector<string> data = readRecordFromFile(MENU_FILE_NAME, str);
-		cout << "Id: " << data[0] << " | name: " << data[1] << " | price: " << data[2] << endl;
-	}
-	cout << "In summary: " << bill << endl;
+	return orderedMeals;
 }
-void cashBill()
+
+double cashBill()
 {
-	fstream file;
-	file.open(BILL_FILE_NAME, ios::out | ios::app);
-	file << "In summary: " << bill << endl;
-	
-	for (int i = 1; i <= billSize; i++)
+	double price = 0.0;
+	for (int i = 0; i < orderedMeals.size(); i++)
 	{
-		string str = to_string(i);
-		vector<string> data = readRecordFromFile(MENU_FILE_NAME, str);
-		cout << "Id: " << data[0] << " | name: " << data[1] << " | price: " << data[2] << endl;
+		vector<string> data = readRecordFromFile(MENU_FILE_NAME, to_string(orderedMeals[i]));
+		double mealPrice = stod(data[2]);
+		price += mealPrice;
 	}
-	
-	cout << "In summary: " << bill << endl;
-	file.close();
+	double roundedPrice = ceil(price * 100.0) / 100.0;
+	return roundedPrice;
 }
+
+string getBill()
+{
+	string bill;
+	for (int i = 0; i < orderedMeals.size(); i++)
+	{
+		vector<string> data = readRecordFromFile(MENU_FILE_NAME, to_string(orderedMeals[i]));
+		bill += to_string(i + 1) + ". | nazwa: " + data[1] + " | cena: " + data[2] + "\n";
+	}
+	bill += "Cena calkowita: " + to_string(cashBill()) + " zl";
+	return bill;
+}
+
 vector<string> readRecordFromFile(string fileName, string searchTerm)
 {
 	vector<string> record;
@@ -89,27 +94,35 @@ vector<string> readRecordFromFile(string fileName, string searchTerm)
 
 	bool foundRecord = false;
 
-	string id_;
-	string name_;
-	string price_;
-	string ingr_;
+	string id;
+	string name;
+	string price;
+	string ingredients;
 
 	const char SEPARATOR = '|';
 
-	while (getline(file, id_, SEPARATOR) && !foundRecord)
+	while (getline(file, id, SEPARATOR) && !foundRecord)
 	{
-		getline(file, name_, SEPARATOR);
-		getline(file, price_, SEPARATOR);
-		getline(file, ingr_, '\n');
-		if (id_ == searchTerm)
+		getline(file, name, SEPARATOR);
+		getline(file, price, SEPARATOR);
+		getline(file, ingredients, '\n');
+		if (id == searchTerm)
 		{
 			foundRecord = true;
-			record.push_back(id_);
-			record.push_back(name_);
-			record.push_back(price_);
-			record.push_back(ingr_);
+			record.push_back(id);
+			record.push_back(name);
+			record.push_back(price);
+			record.push_back(ingredients);
 		}
 	}
 
 	return record;
+}
+
+void saveBillToFile(string content)
+{
+	ofstream file;
+	file.open(BILL_FILE_NAME, ios::trunc);
+	file << content;
+	file.close();
 }

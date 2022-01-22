@@ -1,0 +1,5 @@
+1|Kotlet schabowy|20.5|kotlet, ziemniaki, surowka
+2|Pierogi z miesem|14.5|ciasto, mieso, skwarki
+3|Spaghetti bolognese|31|makaron, sos bolonski, ser
+4|Pizza Margherita|40|ciasto, sos, ser, oregano
+5|Losos panierowany|28|losos, ziemniaki, surowka

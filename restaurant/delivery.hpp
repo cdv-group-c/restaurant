@@ -3,6 +3,7 @@
 
 using namespace std;
 
+void showRestaurantName();
 string getUserName();
 int getInsideOrTakeaway();
 int getTableNumber();

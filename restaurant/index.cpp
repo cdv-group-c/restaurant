@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include "state.hpp"
 #include "delivery.hpp"
 #include "menu.hpp"
@@ -8,34 +9,44 @@ using namespace std;
 
 int main()
 {
-	string userName;
-	int tableNumber;
-	bool insideOrTakeaway;
-	string address;
-	string preferredDeliveryTime;
+  int tableNumber;
+  string address;
+  string preferredDeliveryTime;
+  showRestaurantName();
 
+  string userName = getUserName();
 
+  bool isTakeaway = getInsideOrTakeaway();
 
-	cout << "========================" << endl;
-	cout << "Witamy w restauracji xyz" << endl;
-	cout << "========================" << endl;
+  if (!isTakeaway)
+  {
+    tableNumber = getTableNumber();
+  }
+  else
+  {
+    address = getAddress();
+    preferredDeliveryTime = getPreferredDeliveryTime();
+  }
 
-	userName = getUserName();
+  addMeal();
+  vector<int> orderedMeals = getOrderedMeals();
 
-	
-	insideOrTakeaway = getInsideOrTakeaway();
+  if (isTakeaway)
+  {
+    showDeliveryDetails(address, preferredDeliveryTime);
+  }
+  else
+  {
+    showTableNumber(tableNumber);
+  }
+  string bill = getBill();
 
+  cout << bill << endl;
 
-	if (!insideOrTakeaway)
-	{
-	  tableNumber = getTableNumber();
-	}
-	else
-	{
-	  address = getAddress();
-	  preferredDeliveryTime = getPreferredDeliveryTime();
-	}
-	
-	cout << preferredDeliveryTime;
+  int saveToFile = askForSavingToFile();
+  if (saveToFile == 1)
+  {
+    saveBillToFile(bill);
+  }
+  showThanksText();
 }
-

@@ -55,12 +55,13 @@ int getAmountOfMeals()
 	int amountOfMeals;
 	cout << "\nIle porcji chcesz zamowic?" << endl;
 	cin >> amountOfMeals;
-	// TODO: add dynamic max amount
+	int MAX_AMOUNT_OF_MEALS = 5;
+
 	bool isValid = validateAmountOfMeals(amountOfMeals, 5);
 
 	if (!isValid)
 	{
-		cout << "\nPodaj odpowiednia ilosc porcji" << endl;
+		cout << "\nMozesz zamowic maksymalnie " << MAX_AMOUNT_OF_MEALS << " porcji" << endl;
 		getAmountOfMeals();
 	}
 
@@ -77,8 +78,8 @@ void showMenu()
 
 void addMeal()
 {
-  string menu = getMealsList();
-  vector<int> mealIds = getMealIds();
+	string menu = getMealsList();
+	vector<int> mealIds = getMealIds();
 	showMeals(menu);
 	int userChoice = getUserChoice(mealIds);
 	int amountOfMeals = getAmountOfMeals();

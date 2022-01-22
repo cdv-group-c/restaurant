@@ -10,11 +10,18 @@ using namespace std;
 const int OPEN_HOUR = 12;
 const int CLOSE_HOUR = 22;
 
+void showRestaurantName()
+{
+    cout << "==========================" << endl;
+    cout << "Witamy w restauracji AKAKE" << endl;
+    cout << "==========================" << endl;
+}
+
 string getUserName()
 {
 	string userName;
 
-	cout << "Jak masz na imie?" << endl;
+	cout << "\nJak masz na imie?" << endl;
 	cin >> userName;
 
 	return userName;
@@ -24,7 +31,7 @@ int getInsideOrTakeaway()
 {
 	int insideOrTakeaway;
 
-	cout << "Czy spakowac zamowienie na wynos?" << endl
+	cout << "\nCzy spakowac zamowienie na wynos?" << endl
 			 << "Wybierz [1] Tak lub [0] Nie" << endl;
 	cin >> insideOrTakeaway;
 
@@ -33,7 +40,7 @@ int getInsideOrTakeaway()
 		return insideOrTakeaway;
 	}
 
-	cout << "Chyba sie nie zrozumielismy" << endl;
+	cout << "\nChyba sie nie zrozumielismy" << endl;
 	getInsideOrTakeaway();
 }
 
@@ -45,7 +52,7 @@ int getTableNumber()
 	srand(time(NULL));
 	int tableNumber = rand() % NUMBER_OF_TABLES + 1;
 
-	cout << "Twoj numer stolika to: " << tableNumber << endl;
+	cout << "\nTwoj numer stolika to: " << tableNumber << endl;
 
 	return tableNumber;
 }
@@ -54,7 +61,7 @@ string getAddress()
 {
 	string address;
 
-	cout << "Podaj swoj adres zamieszkania" << endl;
+	cout << "\nPodaj swoj adres zamieszkania" << endl;
 
 	cin.ignore();
 
@@ -99,9 +106,9 @@ string getPreferredDeliveryTime()
 		int hours = 0;
 		int minutes = 0;
 
-		cout << "Podaj dzien dostarczenia zamowienia" << endl;
+		cout << "\nPodaj dzien dostarczenia zamowienia" << endl;
 		cin >> day;
-		cout << "Podaj miesiac dostarczenia zamowienia" << endl;
+		cout << "\nPodaj miesiac dostarczenia zamowienia" << endl;
 		cin >> month;
 
 		int currentMonth = st.wMonth;
@@ -115,12 +122,12 @@ string getPreferredDeliveryTime()
 
 		if (isDayInThePast || !isInDaysRange)
 		{
-			cout << "Podaj prawidlowa date" << endl;
+			cout << "\nPodaj prawidlowa date" << endl;
 			isInvalid = true;
 			continue;
 		}
 
-		cout << "Podaj godzine dostarczenia zamowienia" << endl;
+		cout << "\nPodaj godzine dostarczenia zamowienia" << endl;
 		cin >> hours;
 		cout << "Podaj minute dostarczenia zamowienia" << endl;
 		cin >> minutes;
@@ -130,14 +137,14 @@ string getPreferredDeliveryTime()
 
 		if (!isInHoursRange || isDayInThePast || (isCurrentDay && isHourInThePast))
 		{
-			cout << "Podaj prawidlowa godzine" << endl;
+			cout << "\nPodaj prawidlowa godzine" << endl;
 			isInvalid = true;
 			continue;
 		}
 
 		if (hours < OPEN_HOUR || hours >= CLOSE_HOUR)
 		{
-			cout << "Nie pracujemy w tych godzinach" << endl;
+			cout << "\nNie pracujemy w tych godzinach" << endl;
 			isInvalid = true;
 			continue;
 		}

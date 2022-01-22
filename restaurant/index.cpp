@@ -8,22 +8,18 @@ using namespace std;
 
 int main()
 {
-	string userName;
 	int tableNumber;
-	bool insideOrTakeaway;
 	string address;
 	string preferredDeliveryTime;
+	// TODO
+	int mealIds[] = { 1, 2, 3, 4, 5 };
 
+	showRestaurantName();
 
-
-	cout << "========================" << endl;
-	cout << "Witamy w restauracji xyz" << endl;
-	cout << "========================" << endl;
-
-	userName = getUserName();
+	string userName = getUserName();
 
 	
-	insideOrTakeaway = getInsideOrTakeaway();
+	bool insideOrTakeaway = getInsideOrTakeaway();
 
 
 	if (!insideOrTakeaway)
@@ -37,5 +33,12 @@ int main()
 	}
 	
 	cout << preferredDeliveryTime;
+
+	string menu = getMealsList();
+
+	addMeal(mealIds, menu);
+	getNextStep(mealIds, menu);
+
+	showDeliveryDetails(address, preferredDeliveryTime);
 }
 

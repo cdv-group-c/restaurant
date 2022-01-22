@@ -28,8 +28,6 @@ int main()
     preferredDeliveryTime = getPreferredDeliveryTime();
   }
 
-  cout << preferredDeliveryTime << endl;
-
   addMeal();
   vector<int> orderedMeals = getOrderedMeals();
 

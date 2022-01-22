@@ -31,14 +31,14 @@ int getUserChoice(vector<int> mealIds)
 {
 	int userChoice;
 
-	cout << "Co chcesz dzisiaj zjesc?" << endl;
+	cout << "\nCo chcesz dzisiaj zjesc?" << endl;
 	cin >> userChoice;
 
 	bool isValid = validateMealId(mealIds, userChoice);
 
 	if (!isValid)
 	{
-		cout << "Podaj wlasciwy numer posilku" << endl;
+		cout << "\nPodaj wlasciwy numer posilku" << endl;
 		getUserChoice(mealIds);
 	}
 
@@ -53,14 +53,14 @@ bool validateAmountOfMeals(int amountOfMeals, int maxAmountOfMeals)
 int getAmountOfMeals()
 {
 	int amountOfMeals;
-	cout << "Ile porcji chcesz zamowic?" << endl;
+	cout << "\nIle porcji chcesz zamowic?" << endl;
 	cin >> amountOfMeals;
 	// TODO: add dynamic max amount
 	bool isValid = validateAmountOfMeals(amountOfMeals, 5);
 
 	if (!isValid)
 	{
-		cout << "Podaj odpowiednia ilosc porcji" << endl;
+		cout << "\nPodaj odpowiednia ilosc porcji" << endl;
 		getAmountOfMeals();
 	}
 
@@ -92,14 +92,14 @@ int getMealToRemove(vector<int> mealIds)
 {
 	int mealToRemove;
 
-	cout << "Co chcesz usunac?" << endl;
+	cout << "\nCo chcesz usunac?" << endl;
 	cin >> mealToRemove;
 
 	bool isValid = validateMealId(mealIds, mealToRemove);
 
 	if (!isValid)
 	{
-		cout << "Nie masz takiego posilku w swoim zamowieniu" << endl;
+		cout << "\nNie masz takiego posilku w swoim zamowieniu" << endl;
 		getMealToRemove(mealIds);
 	}
 
@@ -139,7 +139,7 @@ void getNextStep(vector<int> currentOrder, vector<int> mealIds, string mealList)
 
 		if (!isValid)
 		{
-			cout << "Najpierw dodaj posilek" << endl;
+			cout << "\nNajpierw dodaj posilek" << endl;
 			addMeal();
 		}
 		break;

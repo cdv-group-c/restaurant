@@ -106,7 +106,7 @@ string getPreferredDeliveryTime()
 
 		cout << "\nPodaj dzien dostarczenia zamowienia" << endl;
 		cin >> day;
-		cout << "\nPodaj miesiac dostarczenia zamowienia" << endl;
+		cout << "Podaj miesiac dostarczenia zamowienia" << endl;
 		cin >> month;
 
 		int currentMonth = st.wMonth;

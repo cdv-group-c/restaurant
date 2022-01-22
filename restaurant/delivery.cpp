@@ -72,9 +72,17 @@ void showOpenHours()
 
 void setDeliveryTime()
 {
-
 }
 
+string getNumberWithTrailingZero(int number)
+{
+	if (number > 0 && number < 10)
+	{
+		return "0" + to_string(number);
+	}
+
+	return to_string(number);
+}
 
 string getPreferredDeliveryTime()
 {
@@ -90,7 +98,7 @@ string getPreferredDeliveryTime()
 		int month = 0;
 		int hours = 0;
 		int minutes = 0;
-		
+
 		cout << "Podaj dzien dostarczenia zamowienia" << endl;
 		cin >> day;
 		cout << "Podaj miesiac dostarczenia zamowienia" << endl;
@@ -120,7 +128,7 @@ string getPreferredDeliveryTime()
 		bool isHourInThePast = hours <= currentHours && minutes < currentMinutes;
 		bool isInHoursRange = (hours >= 0 && hours < 24) && (minutes >= 0 && minutes < 60);
 
-		if (!isInHoursRange || isDayInThePast ||  (isCurrentDay && isHourInThePast))
+		if (!isInHoursRange || isDayInThePast || (isCurrentDay && isHourInThePast))
 		{
 			cout << "Podaj prawidlowa godzine" << endl;
 			isInvalid = true;
@@ -133,7 +141,7 @@ string getPreferredDeliveryTime()
 			isInvalid = true;
 			continue;
 		}
-		
+
 		int fastestDeliveryHours = currentHours + 1;
 
 		bool isTooFastDeliveryTime = hours < fastestDeliveryHours || (hours == fastestDeliveryHours && minutes < currentMinutes);
@@ -144,9 +152,8 @@ string getPreferredDeliveryTime()
 			minutes = currentMinutes;
 		}
 
-		preferredDeliveryTime = to_string(day) + "-" + to_string(month) + "-2022" + " " + to_string(hours) + ":" + to_string(minutes);
+		preferredDeliveryTime = getNumberWithTrailingZero(day) + "-" + getNumberWithTrailingZero(month) + "-2022" + " " + getNumberWithTrailingZero(hours) + ":" + getNumberWithTrailingZero(minutes);
 
 		return preferredDeliveryTime;
 	} while (isInvalid);
-
 }

@@ -8,16 +8,24 @@ using namespace std;
 int id;
 int billSize = 0;
 float bill = 0;
+float portionNumber = 0;
 
 const string MENU_FILE_NAME = "menu.csv";
 const string BILL_FILE_NAME = "bill.txt";
+int numberOfId = 0;
+string tempLine;
 
 vector<string> readRecordFromFile(string fileName, string searchTerm);
 
 void printMenu()
 {
-	for (int i = 1; i <= 5; i++)
-	{
+	ifstream file;
+	file.open(MENU_FILE_NAME);
+	while (getline(file, tempLine)) {
+		numberOfId++;
+	}
+
+	for (int i = 1; i <= numberOfId; i++) {
 		string str = to_string(i);
 		vector<string> data = readRecordFromFile(MENU_FILE_NAME, str);
 		cout << "Id: " << data[0] << " | name: " << data[1] << " | price: " << data[2] << " | ingredients: " << data[3] << endl;
@@ -27,14 +35,23 @@ void printMenu()
 void addToBill()
 {
 	cin >> id;
-	string str = to_string(id);
-	vector<string> data = readRecordFromFile(MENU_FILE_NAME, str);
-	fstream file;
-	file.open(BILL_FILE_NAME, ios::out | ios::app);
-	file << data[0] << "," << data[1] << "," << data[2] << endl;
-	bill += stof(data[2]);
-	billSize += 1;
-	file.close();
+	if (id > numberOfId || id <= 0)
+	{
+		cout << "Numer poza zakresem" << endl;
+	}
+	else
+	{
+		cin >> portionNumber;
+		string str = to_string(id);
+		vector<string> data = readRecordFromFile(MENU_FILE_NAME, str);
+		fstream file;
+		file.open(BILL_FILE_NAME, ios::out | ios::app);
+		file << data[0] << "," << data[1] << "," << data[2] << endl;
+		bill += (stof(data[2]) * portionNumber);
+		billSize += 1;
+		file.close();
+	}
+	
 }
 
 void printBill()

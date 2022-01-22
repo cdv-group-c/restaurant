@@ -7,7 +7,7 @@ void getNextStep(vector<int> currentOrder, vector<int> mealIds, string mealList)
 
 void showMeals(string menu)
 {
-	cout << menu;
+	cout << menu << endl;
 };
 
 bool validateMealId(vector<int> mealIds, int userChoice)

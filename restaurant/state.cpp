@@ -71,7 +71,8 @@ double cashBill()
 	for (int i = 0; i < orderedMeals.size(); i++)
 	{
 		vector<string> data = readRecordFromFile(MENU_FILE_NAME, to_string(orderedMeals[i]));
-		price += stod(data[2]);
+		double mealPrice = stod(data[2]);
+		price += mealPrice;
 	}
 	double roundedPrice = ceil(price * 100.0) / 100.0;
 	return roundedPrice;
@@ -83,7 +84,6 @@ string getBill()
 	for (int i = 0; i < orderedMeals.size(); i++)
 	{
 		vector<string> data = readRecordFromFile(MENU_FILE_NAME, to_string(orderedMeals[i]));
-		cout << "";
 		bill += "Id: " + data[0] + " | name: " + data[1] + " | price: " + data[2] + "\n";
 	}
 	bill += "Cena: " + to_string(cashBill()) + " zl";

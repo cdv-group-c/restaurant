@@ -28,7 +28,7 @@ int main()
     preferredDeliveryTime = getPreferredDeliveryTime();
   }
 
-  cout << preferredDeliveryTime;
+  cout << preferredDeliveryTime << endl;
 
   addMeal();
   vector<int> orderedMeals = getOrderedMeals();
@@ -43,7 +43,7 @@ int main()
   }
   string bill = getBill();
 
-  cout << bill;
+  cout << bill << endl;
 
   int saveToFile = askForSavingToFile();
   if (saveToFile == 1)

@@ -15,7 +15,7 @@ void showDeliveryDetails(string deliveryAddress, string deliveryTime)
 
 void showThanksText()
 {
-	cout << "Dziekujemy za skorzystanie z naszych usług. Smacznego!";
+	cout << "Dziekujemy za skorzystanie z naszych uslug. Smacznego!";
 }
 
 int askForSavingToFile()

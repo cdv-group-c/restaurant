@@ -29,9 +29,9 @@ string getMealsList()
 
 		string mealId = to_string(amountOfMeals);
 		vector<string> data = readRecordFromFile(MENU_FILE_NAME, mealId);
-		mealsList += "Id: " + data[0] + " | name: " + data[1] + " | price: " + data[2] + " | ingredients: " + data[3] + "\n";
+		mealsList += mealId + ". | name: " + data[1] + " | price: " + data[2] + " | ingredients: " + data[3] + "\n";
 
-		mealIds.push_back(stoi(data[0]));
+		mealIds.push_back(amountOfMeals);
 	}
 
 	return mealsList;
@@ -79,9 +79,9 @@ string getBill()
 	for (int i = 0; i < orderedMeals.size(); i++)
 	{
 		vector<string> data = readRecordFromFile(MENU_FILE_NAME, to_string(orderedMeals[i]));
-		bill += "Id: " + data[0] + " | name: " + data[1] + " | price: " + data[2] + "\n";
+		bill += to_string(i + 1) + ". | nazwa: " + data[1] + " | cena: " + data[2] + "\n";
 	}
-	bill += "Cena: " + to_string(cashBill()) + " zl";
+	bill += "Cena calkowita: " + to_string(cashBill()) + " zl";
 	return bill;
 }
 

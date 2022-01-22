@@ -47,7 +47,7 @@ int getUserChoice(vector<int> mealIds)
 
 bool validateAmountOfMeals(int amountOfMeals, int maxAmountOfMeals)
 {
-	return amountOfMeals < maxAmountOfMeals;
+	return amountOfMeals <= maxAmountOfMeals;
 }
 
 int getAmountOfMeals()

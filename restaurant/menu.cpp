@@ -94,6 +94,7 @@ int getMealToRemove(vector<int> mealIds)
 	int mealToRemove;
 
 	cout << "\nCo chcesz usunac?" << endl;
+	cout << getBill() << endl;
 	cin >> mealToRemove;
 
 	bool isValid = validateMealId(mealIds, mealToRemove);

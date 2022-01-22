@@ -58,5 +58,9 @@ The summary displays all of the collected data and asks the user to save the ord
 
 This module reads information from the entry file and extracts data to the app.
 We use `|` separated values in the entry file to split the data.
-To modify the state the app overwrites the file.
-It could be a possible future improvement to refactor it to use an application memory.
+It has two state variables:
+
+- `orderedMeals`: the list of ordered meal's ids;
+- `mealIds` - the vector of ids of all the meals.
+
+You can access this state in whole application by getters functions: `getOrderedMeals` and `getMealIds`.

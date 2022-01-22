@@ -52,8 +52,6 @@ int getTableNumber()
 	srand(time(NULL));
 	int tableNumber = rand() % NUMBER_OF_TABLES + 1;
 
-	cout << "\nTwoj numer stolika to: " << tableNumber << endl;
-
 	return tableNumber;
 }
 

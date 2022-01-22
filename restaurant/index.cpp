@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include "state.hpp"
 #include "delivery.hpp"
 #include "menu.hpp"
@@ -8,37 +9,46 @@ using namespace std;
 
 int main()
 {
-	int tableNumber;
-	string address;
-	string preferredDeliveryTime;
-	// TODO
-	int mealIds[] = { 1, 2, 3, 4, 5 };
+  int tableNumber;
+  string address;
+  string preferredDeliveryTime;
+  showRestaurantName();
 
-	showRestaurantName();
+  string userName = getUserName();
 
-	string userName = getUserName();
+  bool isTakeaway = getInsideOrTakeaway();
 
-	
-	bool insideOrTakeaway = getInsideOrTakeaway();
+  if (!isTakeaway)
+  {
+    tableNumber = getTableNumber();
+  }
+  else
+  {
+    address = getAddress();
+    preferredDeliveryTime = getPreferredDeliveryTime();
+  }
 
+  cout << preferredDeliveryTime;
 
-	if (!insideOrTakeaway)
-	{
-	  tableNumber = getTableNumber();
-	}
-	else
-	{
-	  address = getAddress();
-	  preferredDeliveryTime = getPreferredDeliveryTime();
-	}
-	
-	cout << preferredDeliveryTime;
+  addMeal();
+  vector<int> orderedMeals = getOrderedMeals();
 
-	string menu = getMealsList();
+  if (isTakeaway)
+  {
+    showDeliveryDetails(address, preferredDeliveryTime);
+  }
+  else
+  {
+    showTableNumber(tableNumber);
+  }
+  string bill = getBill();
 
-	addMeal(mealIds, menu);
-	getNextStep(mealIds, menu);
+  cout << bill;
 
-	showDeliveryDetails(address, preferredDeliveryTime);
+  int saveToFile = askForSavingToFile();
+  if (saveToFile == 1)
+  {
+    saveBillToFile(bill);
+  }
+  showThanksText();
 }
-

@@ -3,15 +3,17 @@
 
 using namespace std;
 
+void getNextStep(vector<int> currentOrder, vector<int> mealIds, string mealList);
+
 void showMeals(string menu)
 {
 	cout << menu;
 };
 
-bool validateMealId(int mealIds[], int userChoice)
+bool validateMealId(vector<int> mealIds, int userChoice)
 {
 	bool isValid = false;
-	int size = sizeof(mealIds) / sizeof(mealIds[0]);
+	size_t size = mealIds.size();
 
 	for (int i = 0; i < size; i++)
 	{
@@ -25,7 +27,7 @@ bool validateMealId(int mealIds[], int userChoice)
 	return isValid;
 }
 
-int getUserChoice(int mealIds[])
+int getUserChoice(vector<int> mealIds)
 {
 	int userChoice;
 
@@ -73,16 +75,20 @@ void showMenu()
 	cout << "4. Wyjdz z programu" << endl;
 }
 
-void addMeal(int mealIds[], string mealList)
+void addMeal()
 {
-	showMeals(mealList);
+  string menu = getMealsList();
+  vector<int> mealIds = getMealIds();
+	showMeals(menu);
 	int userChoice = getUserChoice(mealIds);
-	addToBill(userChoice);
-	getAmountOfMeals();
+	int amountOfMeals = getAmountOfMeals();
+	addToBill(userChoice, amountOfMeals);
+	vector<int> currentOrder = getOrderedMeals();
 	showMenu();
+	getNextStep(currentOrder, mealIds, menu);
 }
 
-int getMealToRemove(int mealIds[])
+int getMealToRemove(vector<int> mealIds)
 {
 	int mealToRemove;
 
@@ -100,40 +106,41 @@ int getMealToRemove(int mealIds[])
 	return mealToRemove;
 };
 
-bool checkOrder(int mealIds[])
+bool checkOrder(vector<int> mealIds)
 {
 	int size = sizeof(mealIds) / sizeof(mealIds[0]);
-	cout << size;
 	return size > 0;
 }
 
-void getNextStep(int mealIds[], string mealList)
+void getNextStep(vector<int> currentOrder, vector<int> mealIds, string mealList)
 {
-	int tab2[1] = {0};
 	int number;
 	cin >> number;
 
 	switch (number)
 	{
 	case 1:
-		addMeal(mealIds, mealList);
+		addMeal();
 		break;
 
-	case 2: {
-		int mealToRemove = getMealToRemove(tab2);
-		// TODO: add remove function
+	case 2:
+	{
+		int mealToRemove = getMealToRemove(mealIds);
+		removeFromBill(mealToRemove);
+		showMenu();
+		vector<int> newCurrentOrder = getOrderedMeals();
+		getNextStep(newCurrentOrder, mealIds, mealList);
 		break;
 	}
-		
 
 	case 3:
 	{
-		bool isValid = checkOrder(tab2);
+		bool isValid = checkOrder(currentOrder);
 
 		if (!isValid)
 		{
 			cout << "Najpierw dodaj posilek" << endl;
-			addMeal(mealIds, mealList);
+			addMeal();
 		}
 		break;
 	}

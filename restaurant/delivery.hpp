@@ -11,4 +11,3 @@ string getAddress();
 string getPreferredDeliveryTime();
 
 #endif // !delivery_hpp
-

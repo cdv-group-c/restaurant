@@ -12,9 +12,9 @@ const int CLOSE_HOUR = 22;
 
 void showRestaurantName()
 {
-    cout << "==========================" << endl;
-    cout << "Witamy w restauracji AKAKE" << endl;
-    cout << "==========================" << endl;
+	cout << "==========================" << endl;
+	cout << "Witamy w restauracji AKAKE" << endl;
+	cout << "==========================" << endl;
 }
 
 string getUserName()

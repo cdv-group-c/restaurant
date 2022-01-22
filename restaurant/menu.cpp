@@ -77,8 +77,8 @@ void showMenu()
 
 void addMeal()
 {
-  string menu = getMealsList();
-  vector<int> mealIds = getMealIds();
+	string menu = getMealsList();
+	vector<int> mealIds = getMealIds();
 	showMeals(menu);
 	int userChoice = getUserChoice(mealIds);
 	int amountOfMeals = getAmountOfMeals();

@@ -13,4 +13,3 @@ void saveBillToFile(string content);
 double cashBill();
 
 #endif // !state_hpp
-

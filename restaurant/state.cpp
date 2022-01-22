@@ -5,14 +5,9 @@
 #include <cstdio>
 
 using namespace std;
-int id;
-int billSize = 0;
-float bill = 0;
 
 const string MENU_FILE_NAME = "menu.txt";
 const string BILL_FILE_NAME = "bill.txt";
-
-string tempLine;
 
 vector<int> orderedMeals;
 vector<int> mealIds;
@@ -22,23 +17,23 @@ vector<string> readRecordFromFile(string fileName, string searchTerm);
 string getMealsList()
 {
 	int amountOfMeals = 0;
+	string tempLine;
 	string mealsList;
 	ifstream file;
+	
 	file.open(MENU_FILE_NAME);
 
 	while (getline(file, tempLine))
 	{
 		amountOfMeals++;
-	}
 
-	for (int i = 1; i <= amountOfMeals; i++)
-	{
-		string str = to_string(i);
-		vector<string> data = readRecordFromFile(MENU_FILE_NAME, str);
+		string mealId = to_string(amountOfMeals);
+		vector<string> data = readRecordFromFile(MENU_FILE_NAME, mealId);
 		mealsList += "Id: " + data[0] + " | name: " + data[1] + " | price: " + data[2] + " | ingredients: " + data[3] + "\n";
 
 		mealIds.push_back(stoi(data[0]));
 	}
+
 	return mealsList;
 }
 
